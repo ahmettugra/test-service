@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-first
+spec:
+  selector:
+    matchLabels:
+      app: service-first
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: service-first
+    spec:
+      containers:
+        - name: service-first
+          image: service-first:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-first
+spec:
+  selector:
+    app: service-first
+  ports:
+    - protocol: TCP
+      port: 8080
+  type: NodePort

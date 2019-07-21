@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-second
+spec:
+  selector:
+    matchLabels:
+      app: service-second
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: service-second
+    spec:
+      containers:
+        - name: service-second
+          image: service-second:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-second
+spec:
+  selector:
+    app: service-second
+  ports:
+    - protocol: TCP
+      port: 8080
+  type: NodePort
